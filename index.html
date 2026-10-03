@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>گزارش عملکرد اداره بیمه | شش ماه اول ۱۴۰۵</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      --bg-main: #F5F7F6;
+      --bg-card: #FFFFFF;
+      --primary: #2DBEAB;
+      --primary-dark: #1FA090;
+      --primary-light: #D4F5F0;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --danger: #EF4444;
+      --text-main: #1F2937;
+      --text-secondary: #6B7280;
+      --border: #E5E7EB;
+      --sidebar-width: 260px;
+      --radius: 16px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-hover: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Vazirmatn', sans-serif;
+      background: var(--bg-main);
+      color: var(--text-main);
+      font-size: 14px;
+      line-height: 1.6;
+      direction: rtl;
+    }
+
+    .app { display: flex; min-height: 100vh; }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--bg-card);
+      border-left: 1px solid var(--border);
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+    }
+    .sidebar-header { padding: 24px 20px 16px; border-bottom: 1px solid var(--border); }
+    .logo { display: flex; align-items: center; gap: 12px; }
+    .logo-icon {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center; color: white;
+    }
+    .logo-text h1 { font-size: 15px; font-weight: 700; }
+    .logo-text p { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+
+    .sidebar-nav { flex: 1; padding: 16px 12px; overflow-y: auto; }
+    .nav-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 11px 14px; border-radius: 10px;
+      color: var(--text-secondary); text-decoration: none;
+      font-size: 13.5px; font-weight: 500;
+      margin-bottom: 4px; transition: all 0.2s; cursor: pointer;
+    }
+    .nav-item:hover { background: #F3F4F6; color: var(--text-main); }
+    .nav-item.active { background: var(--primary-light); color: var(--primary-dark); }
+    .nav-item i, .nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    .sidebar-footer { padding: 16px; border-top: 1px solid var(--border); }
+    .next-report {
+      background: var(--primary-light); border-radius: 12px;
+      padding: 14px; margin-bottom: 12px; text-align: center;
+    }
+    .next-report p { font-size: 12px; color: var(--primary-dark); font-weight: 600; }
+    .next-report span { font-size: 11px; color: var(--text-secondary); }
+    .footer-links { display: flex; gap: 8px; justify-content: center; }
+    .footer-links a {
+      font-size: 12px; color: var(--text-secondary); text-decoration: none;
+      padding: 6px 10px; border-radius: 8px; transition: all 0.2s;
+    }
+    .footer-links a:hover { background: #F3F4F6; color: var(--text-main); }
+
+    .main { flex: 1; margin-right: var(--sidebar-width); min-width: 0; }
+
+    .topbar {
+      background: var(--bg-card);
+      padding: 14px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 50;
+    }
+    .search-box {
+      display: flex; align-items: center;
+      background: var(--bg-main); border-radius: 12px;
+      padding: 10px 16px; width: 360px; gap: 10px;
+      border: 1px solid transparent; transition: all 0.2s;
+    }
+    .search-box:focus-within { border-color: var(--primary); background: white; }
+    .search-box input {
+      border: none; background: transparent; outline: none;
+      font-family: inherit; font-size: 13.5px; width: 100%; color: var(--text-main);
+    }
+    .search-box input::placeholder { color: #9CA3AF; }
+    .search-box svg { color: #9CA3AF; width: 18px; height: 18px; }
+
+    .topbar-left { display: flex; align-items: center; gap: 16px; }
+    .notif-btn {
+      position: relative; width: 40px; height: 40px; border-radius: 10px;
+      border: none; background: var(--bg-main); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+    }
+    .notif-btn:hover { background: #E5E7EB; }
+    .notif-badge {
+      position: absolute; top: 6px; left: 6px;
+      width: 16px; height: 16px; background: var(--danger); color: white;
+      font-size: 10px; font-weight: 700; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .user-profile {
+      display: flex; align-items: center; gap: 10px;
+      padding: 6px 12px 6px 6px; border-radius: 12px; cursor: pointer; transition: all 0.2s;
+    }
+    .user-profile:hover { background: var(--bg-main); }
+    .avatar {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 13px;
+    }
+    .user-info h4 { font-size: 13px; font-weight: 600; }
+    .user-info span { font-size: 11px; color: var(--text-secondary); }
+
+    /* Report Header */
+    .report-header {
+      padding: 28px 28px 0;
+      display: flex; justify-content: space-between;
+      align-items: flex-start; flex-wrap: wrap; gap: 16px;
+    }
+    .report-header h2 { font-size: 28px; font-weight: 700; }
+    .report-header p { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+    .header-actions { display: flex; gap: 10px; align-items: center; }
+    .period-select {
+      appearance: none; background: var(--bg-card);
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 10px 36px 10px 14px; font-family: inherit;
+      font-size: 13px; color: var(--text-main); cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: left 12px center;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 16px; border-radius: 10px;
+      font-family: inherit; font-size: 13px; font-weight: 600;
+      border: none; cursor: pointer; transition: all 0.2s;
+    }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-outline { background: white; border: 1px solid var(--border); color: var(--text-main); }
+    .btn-outline:hover { background: var(--bg-main); }
+
+    .content { padding: 24px 28px 40px; }
+
+    /* KPI Cards */
+    .kpi-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 20px; margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: var(--bg-card); border-radius: var(--radius);
+      padding: 20px; box-shadow: var(--shadow);
+      transition: all 0.2s; border-top: 3px solid transparent;
+      position: relative; overflow: hidden;
+    }
+    .kpi-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+    .kpi-card.success { border-top-color: var(--success); }
+    .kpi-card.danger { border-top-color: var(--danger); }
+    .kpi-card.warning { border-top-color: var(--warning); }
+    .kpi-card.primary { border-top-color: var(--primary); }
+
+    .kpi-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+    .kpi-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+    .kpi-icon.success { background: #D1FAE5; color: var(--success); }
+    .kpi-icon.danger { background: #FEE2E2; color: var(--danger); }
+    .kpi-icon.warning { background: #FEF3C7; color: var(--warning); }
+    .kpi-icon.primary { background: var(--primary-light); color: var(--primary); }
+
+    .kpi-value { font-size: 32px; font-weight: 700; line-height: 1.2; margin-bottom: 4px; }
+    .kpi-title { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+    .kpi-change { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; margin-top: 10px; }
+    .kpi-change.up { color: var(--success); }
+    .kpi-change.down { color: var(--danger); }
+    .kpi-change.neutral { color: var(--text-secondary); }
+    .kpi-sub { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+
+    /* Tabs */
+    .tabs {
+      display: flex; gap: 4px; background: var(--bg-card);
+      border-radius: 12px; padding: 6px; margin-bottom: 20px;
+      box-shadow: var(--shadow); width: fit-content;
+    }
+    .tab-btn {
+      padding: 10px 20px; border-radius: 8px; border: none;
+      background: transparent; font-family: inherit; font-size: 13.5px;
+      font-weight: 500; color: var(--text-secondary); cursor: pointer; transition: all 0.2s;
+    }
+    .tab-btn:hover { color: var(--text-main); }
+    .tab-btn.active { background: var(--primary); color: white; }
+
+    /* Sections */
+    .section { margin-bottom: 28px; }
+    .section-title {
+      font-size: 18px; font-weight: 700; margin-bottom: 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-title svg { width: 20px; height: 20px; color: var(--primary); }
+
+    .card {
+      background: var(--bg-card); border-radius: var(--radius);
+      padding: 20px; box-shadow: var(--shadow); transition: all 0.2s;
+    }
+    .card:hover { box-shadow: var(--shadow-hover); }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .card-title { font-size: 16px; font-weight: 600; }
+    .card-sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+    /* Charts */
+    .charts-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 20px; margin-bottom: 24px;
+    }
+    .chart-container { position: relative; height: 300px; }
+
+    /* Tables */
+    .tables-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead th {
+      background: #F9FAFB; color: var(--text-secondary);
+      font-weight: 600; font-size: 12px; text-align: right;
+      padding: 12px 14px; border-bottom: 1px solid var(--border); white-space: nowrap;
+    }
+    tbody td {
+      padding: 14px; border-bottom: 1px solid #F3F4F6; vertical-align: middle;
+    }
+    tbody tr { height: 48px; transition: background 0.15s; }
+    tbody tr:hover { background: #F9FAFB; }
+    tbody tr:last-child td { border-bottom: none; }
+
+    .status-dot { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; }
+    .status-dot::before { content: ''; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .status-dot.green::before { background: var(--success); }
+    .status-dot.orange::before { background: var(--warning); }
+    .status-dot.red::before { background: var(--danger); }
+
+    .trend-up { color: var(--success); font-weight: 600; }
+    .trend-down { color: var(--danger); font-weight: 600; }
+    .trend-neutral { color: var(--text-secondary); }
+
+    .full-table { margin-bottom: 24px; }
+
+    /* Variance / Insight */
+    .variance-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 24px; }
+    .insight-card {
+      background: linear-gradient(135deg, #FEF3C7, #FFFBEB);
+      border-radius: var(--radius); padding: 24px; border: 1px solid #FDE68A;
+    }
+    .insight-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 12px; color: #92400E; }
+    .insight-card p { font-size: 14px; color: #78350F; line-height: 1.7; margin-bottom: 8px; }
+    .insight-card .sub { font-size: 12px; color: #A16207; }
+
+    /* Driver Cards */
+    .drivers-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 20px; margin-bottom: 24px;
+    }
+    .driver-card {
+      background: var(--bg-card); border-radius: var(--radius);
+      padding: 20px; box-shadow: var(--shadow);
+      border-right: 4px solid var(--primary); transition: all 0.2s;
+    }
+    .driver-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+    .driver-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--primary-dark); }
+    .driver-item { margin-bottom: 10px; }
+    .driver-item label { font-size: 11px; color: var(--text-secondary); font-weight: 600; display: block; margin-bottom: 2px; }
+    .driver-item p { font-size: 13px; color: var(--text-main); }
+
+    /* Risk Matrix */
+    .risk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+    .matrix-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .matrix-cell { border-radius: 12px; padding: 16px; min-height: 120px; }
+    .matrix-cell h5 { font-size: 12px; font-weight: 700; margin-bottom: 10px; }
+    .matrix-cell ul { list-style: none; font-size: 12.5px; }
+    .matrix-cell li { margin-bottom: 6px; padding-right: 12px; position: relative; }
+    .matrix-cell li::before { content: '•'; position: absolute; right: 0; }
+    .matrix-cell.high-high { background: #FEE2E2; border: 1px solid #FECACA; }
+    .matrix-cell.high-high h5 { color: #991B1B; }
+    .matrix-cell.mid-high { background: #FEF3C7; border: 1px solid #FDE68A; }
+    .matrix-cell.mid-high h5 { color: #92400E; }
+    .matrix-cell.low-high { background: #FEF9C3; border: 1px solid #FEF08A; }
+    .matrix-cell.low-high h5 { color: #854D0E; }
+    .matrix-cell.low-low { background: #D1FAE5; border: 1px solid #A7F3D0; }
+    .matrix-cell.low-low h5 { color: #065F46; }
+
+    /* Actions */
+    .actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+
+    /* Badge */
+    .badge {
+      display: inline-block; padding: 3px 10px; border-radius: 20px;
+      font-size: 11px; font-weight: 600;
+    }
+    .badge.green { background: #D1FAE5; color: #065F46; }
+    .badge.orange { background: #FEF3C7; color: #92400E; }
+    .badge.red { background: #FEE2E2; color: #991B1B; }
+    .badge.blue { background: #DBEAFE; color: #1E40AF; }
+
+    /* Mobile */
+    .mobile-toggle {
+      display: none; position: fixed; top: 14px; right: 14px; z-index: 200;
+      width: 42px; height: 42px; border-radius: 10px;
+      background: var(--primary); color: white; border: none; cursor: pointer;
+      align-items: center; justify-content: center;
+    }
+    .sidebar-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.3); z-index: 90;
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Info Strip */
+    .info-strip {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 16px; margin-bottom: 24px;
+    }
+    .info-item {
+      background: var(--bg-card); border-radius: 12px;
+      padding: 14px 16px; box-shadow: var(--shadow);
+      border-right: 3px solid var(--primary);
+    }
+    .info-item label { font-size: 11px; color: var(--text-secondary); font-weight: 600; display: block; margin-bottom: 4px; }
+    .info-item p { font-size: 14px; font-weight: 600; }
+
+    /* Responsive */
+    @media (max-width: 1280px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .charts-grid, .tables-grid, .variance-grid, .drivers-grid, .risk-grid, .actions-grid, .info-strip { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 900px) {
+      .sidebar { transform: translateX(100%); }
+      .sidebar.open { transform: translateX(0); }
+      .sidebar-overlay.open { display: block; }
+      .main { margin-right: 0; }
+      .mobile-toggle { display: flex; }
+      .search-box { width: 200px; }
+      .topbar { padding: 12px 16px; padding-right: 60px; }
+      .content, .report-header { padding-left: 16px; padding-right: 16px; }
+      .kpi-grid { grid-template-columns: 1fr; }
+      .tabs { width: 100%; overflow-x: auto; }
+    }
+    @media (max-width: 600px) {
+      .report-header h2 { font-size: 22px; }
+      .kpi-value { font-size: 26px; }
+      .header-actions { width: 100%; flex-wrap: wrap; }
+      .period-select { flex: 1; }
+    }
+
+    @media print {
+      .sidebar, .topbar, .mobile-toggle, .tabs, .header-actions { display: none !important; }
+      .main { margin: 0; }
+    }
+  </style>
+</head>
+<body>
+  <button class="mobile-toggle" id="mobileToggle" aria-label="منو">
+    <i data-lucide="menu"></i>
+  </button>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <div class="logo-icon">
+            <i data-lucide="shield-check" style="width:22px;height:22px;"></i>
+          </div>
+          <div class="logo-text">
+            <h1>اداره بیمه کرمان موتور</h1>
+            <p>گزارش عملکرد دوره‌ای ۱۴۰۵</p>
+          </div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="nav-item active" data-section="dashboard" href="#dashboard"><i data-lucide="layout-dashboard"></i> داشبورد</a>
+        <a class="nav-item" data-section="kpi" href="#kpi"><i data-lucide="gauge"></i> شاخص‌های کلیدی</a>
+        <a class="nav-item" data-section="trends" href="#trends"><i data-lucide="trending-up"></i> روند و مقایسه</a>
+        <a class="nav-item" data-section="variance" href="#variance"><i data-lucide="git-compare"></i> تفسیر و تحلیل</a>
+        <a class="nav-item" data-section="breakdown" href="#breakdown"><i data-lucide="package"></i> عملکرد تفکیکی</a>
+        <a class="nav-item" data-section="risk" href="#risk"><i data-lucide="alert-triangle"></i> ریسک و فرصت</a>
+        <a class="nav-item" data-section="actions" href="#actions"><i data-lucide="check-circle"></i> اقدامات دوره بعد</a>
+        <a class="nav-item" data-section="circle" href="#circle"><i data-lucide="users"></i> عملکرد دایره</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="next-report">
+          <p>گزارش بعدی</p>
+          <span>پایان سال ۱۴۰۵</span>
+        </div>
+        <div class="footer-links">
+          <a href="#"><i data-lucide="settings" style="width:14px;height:14px;vertical-align:middle;"></i> تنظیمات</a>
+          <a href="#"><i data-lucide="help-circle" style="width:14px;height:14px;vertical-align:middle;"></i> راهنما</a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <div class="main">
+      <!-- Top Bar -->
+      <header class="topbar">
+        <div class="search-box">
+          <i data-lucide="search"></i>
+          <input type="text" placeholder="جستجو در شاخص‌ها، پرونده‌ها، نمایندگان..." id="searchInput" />
+        </div>
+        <div class="topbar-left">
+          <button class="notif-btn" title="اعلان‌ها">
+            <i data-lucide="bell" style="width:18px;height:18px;"></i>
+            <span class="notif-badge">۳</span>
+          </button>
+          <div class="user-profile">
+            <div class="avatar">را</div>
+            <div class="user-info">
+              <h4>رئیس اداره بیمه</h4>
+              <span>مدیر گزارش</span>
+            </div>
+            <i data-lucide="chevron-down" style="width:16px;height:16px;color:#9CA3AF;"></i>
+          </div>
+        </div>
+      </header>
+
+      <!-- Report Header -->
+      <div class="report-header" id="dashboard">
+        <div>
+          <h2>گزارش عملکرد اداره بیمه</h2>
+          <p>دوره: شش ماه اول ۱۴۰۵ — پس از تمدید قرارداد</p>
+        </div>
+        <div class="header-actions">
+          <select class="period-select" id="periodSelect">
+            <option value="h1" selected>شش ماه اول ۱۴۰۵</option>
+            <option value="q1">سه ماهه اول ۱۴۰۵</option>
+            <option value="q2">سه ماهه دوم ۱۴۰۵</option>
+            <option value="year">سالانه ۱۴۰۵</option>
+          </select>
+          <button class="btn btn-primary" id="exportPdf">
+            <i data-lucide="file-down" style="width:16px;height:16px;"></i>
+            خروجی PDF
+          </button>
+        </div>
+      </div>
+
+      <div class="content">
+        <!-- Info Strip -->
+        <section class="info-strip">
+          <div class="info-item">
+            <label>تهیه‌کننده</label>
+            <p>ریاست اداره بیمه</p>
+          </div>
+          <div class="info-item">
+            <label>دوره عملکرد</label>
+            <p>۰۱/۰۱/۱۴۰۵ تا ۳۱/۰۶/۱۴۰۵</p>
+          </div>
+          <div class="info-item">
+            <label>تاریخ تهیه</label>
+            <p>۰۸/۰۷/۱۴۰۵</p>
+          </div>
+          <div class="info-item">
+            <label>طبقه‌بندی</label>
+            <p>داخلی / محرمانه</p>
+          </div>
+        </section>
+
+        <!-- KPI Cards -->
+        <section class="kpi-grid" id="kpi">
+          <div class="kpi-card success">
+            <div class="kpi-top">
+              <div>
+                <div class="kpi-value">۱۱۵٪</div>
+                <div class="kpi-title">نرخ نگهداشت بیمه‌شده</div>
+              </div>
+              <div class="kpi-icon success">
+                <i data-lucide="users" style="width:20px;height:20px;"></i>
+              </div>
+            </div>
+            <div class="kpi-change up">
+              <i data-lucide="trending-up" style="width:14px;height:14px;"></i>
+              +۱۴ واحد درصد بهبود
+            </div>
+            <div class="kpi-sub">دوره قبل: ۱۰۱٪ | هدف: ≥ ۱۰۰٪</div>
+          </div>
+
+          <div class="kpi-card danger">
+            <div class="kpi-top">
+              <div>
+                <div class="kpi-value">۱۵٪</div>
+                <div class="kpi-title">نرخ شکایات</div>
+              </div>
+              <div class="kpi-icon danger">
+                <i data-lucide="alert-triangle" style="width:20px;height:20px;"></i>
+              </div>
+            </div>
+            <div class="kpi-change down">
+              <i data-lucide="trending-up" style="width:14px;height:14px;"></i>
+              ۳ برابر شدن نسبت به دوره قبل
+            </div>
+            <div class="kpi-sub">هدف: ≤ ۵٪ | دوره قبل: ۵٪</div>
+          </div>
+
+          <div class="kpi-card danger">
+            <div class="kpi-top">
+              <div>
+                <div class="kpi-value">۱۰–۱۴ روز</div>
+                <div class="kpi-title">میانگین TAT (گردش پرونده)</div>
+              </div>
+              <div class="kpi-icon warning">
+                <i data-lucide="clock" style="width:20px;height:20px;"></i>
+              </div>
+            </div>
+            <div class="kpi-change down">
+              <i data-lucide="trending-down" style="width:14px;height:14px;"></i>
+              بدتر از هدف (۷ روز)
+            </div>
+            <div class="kpi-sub">دوره قبل: ۵–۷ روز</div>
+          </div>
+
+          <div class="kpi-card warning">
+            <div class="kpi-top">
+              <div>
+                <div class="kpi-value">۲۳٪</div>
+                <div class="kpi-title">نرخ پذیرش دیجیتال</div>
+              </div>
+              <div class="kpi-icon primary">
+                <i data-lucide="smartphone" style="width:20px;height:20px;"></i>
+              </div>
+            </div>
+            <div class="kpi-change neutral">بدون تغییر</div>
+            <div class="kpi-sub">هدف: ≥ ۵۰٪ | فاصله تا هدف: ۲۷ واحد</div>
+          </div>
+        </section>
+
+        <!-- Tabs -->
+        <div class="tabs" id="mainTabs">
+          <button class="tab-btn active" data-tab="overview">نمای کلی</button>
+          <button class="tab-btn" data-tab="trends">روند</button>
+          <button class="tab-btn" data-tab="breakdown">تفکیکی</button>
+          <button class="tab-btn" data-tab="drivers">اقدامات</button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div class="tab-panel active" id="panel-overview">
+
+          <section class="charts-grid" id="trends">
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">روند شکایات و زمان گردش پرونده (TAT)</div>
+                  <div class="card-sub">هر دو شاخص روند صعودی نگران‌کننده دارند</div>
+                </div>
+              </div>
+              <div class="chart-container"><canvas id="chartComplaintsTat"></canvas></div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">شکاف دیجیتال و افت دقت ثبت</div>
+                  <div class="card-sub">دقت نزولی، پذیرش دیجیتال راکد</div>
+                </div>
+              </div>
+              <div class="chart-container"><canvas id="chartDigitalAccuracy"></canvas></div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">ترکیب اسناد بر اساس نوع خدمت</div>
+              </div>
+              <div class="chart-container"><canvas id="chartClaimsMix"></canvas></div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">عملکرد لایه‌ای اداره بیمه</div>
+              </div>
+              <div class="chart-container"><canvas id="chartLayerPerformance"></canvas></div>
+            </div>
+          </section>
+
+          <!-- Operational Tables -->
+          <section class="tables-grid">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">شاخص‌های عملیاتی (سرعت)</div>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>شاخص</th>
+                      <th>دوره قبل</th>
+                      <th>دوره جاری</th>
+                      <th>روند</th>
+                      <th>وضعیت</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>میانگین صدور معرفی‌نامه</td>
+                      <td>۳–۴ روز</td>
+                      <td>۱ روز</td>
+                      <td class="trend-up">⬆ بهبود</td>
+                      <td><span class="status-dot green">مطلوب</span></td>
+                    </tr>
+                    <tr>
+                      <td>میانگین رسیدگی به اعتراض</td>
+                      <td>۵–۷ روز</td>
+                      <td>۱–۲ روز</td>
+                      <td class="trend-up">⬆ بهبود</td>
+                      <td><span class="status-dot green">مطلوب</span></td>
+                    </tr>
+                    <tr>
+                      <td>میانگین زمان گردش پرونده (TAT)</td>
+                      <td>۵–۷ روز</td>
+                      <td>۱۰–۱۴ روز</td>
+                      <td class="trend-down">⬇ بدتر</td>
+                      <td><span class="status-dot red">بحرانی</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">شاخص‌های کیفیت (دقت)</div>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>شاخص</th>
+                      <th>دوره قبل</th>
+                      <th>دوره جاری</th>
+                      <th>روند</th>
+                      <th>وضعیت</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>نرخ دقت ثبت اسناد</td>
+                      <td>۹۰٪</td>
+                      <td>۸۰٪</td>
+                      <td class="trend-down">⬇ بدتر</td>
+                      <td><span class="status-dot red">بحرانی</span></td>
+                    </tr>
+                    <tr>
+                      <td>نرخ صحت لیست ابتدای قرارداد</td>
+                      <td>۹۵٪</td>
+                      <td>۹۰٪</td>
+                      <td class="trend-down">⬇ بدتر</td>
+                      <td><span class="status-dot orange">هشدار</span></td>
+                    </tr>
+                    <tr>
+                      <td>نرخ رضایت نمایندگان</td>
+                      <td>۶۰–۶۵٪</td>
+                      <td>۷۵–۸۰٪</td>
+                      <td class="trend-up">⬆ بهبود</td>
+                      <td><span class="status-dot orange">هشدار</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="full-table">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">شاخص‌های اثر (نتیجه)</div>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>شاخص</th>
+                      <th>دوره قبل</th>
+                      <th>دوره جاری</th>
+                      <th>روند</th>
+                      <th>هدف</th>
+                      <th>وضعیت</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>نرخ نگهداشت بیمه‌شده</td>
+                      <td>۱۰۱٪</td>
+                      <td>۱۱۵٪</td>
+                      <td class="trend-up">⬆ بهبود</td>
+                      <td>≥ ۱۰۰٪</td>
+                      <td><span class="status-dot orange">هشدار</span></td>
+                    </tr>
+                    <tr>
+                      <td>نرخ تمدید بیمه‌نامه</td>
+                      <td>۱۰۰٪</td>
+                      <td>۹۵٪</td>
+                      <td class="trend-down">⬇ جزئی</td>
+                      <td>≥ ۹۰٪</td>
+                      <td><span class="status-dot green">مطلوب</span></td>
+                    </tr>
+                    <tr>
+                      <td>نرخ پذیرش دیجیتال</td>
+                      <td>—</td>
+                      <td>۲۳٪</td>
+                      <td class="trend-neutral">ثابت</td>
+                      <td>≥ ۵۰٪</td>
+                      <td><span class="status-dot red">بحرانی</span></td>
+                    </tr>
+                    <tr>
+                      <td>نرخ پرونده ارفاقی</td>
+                      <td>۰.۵٪</td>
+                      <td>۷٪</td>
+                      <td class="trend-down">⬆ بدتر</td>
+                      <td>≤ ۳٪</td>
+                      <td><span class="status-dot orange">هشدار</span></td>
+                    </tr>
+                    <tr>
+                      <td>نرخ شکایات</td>
+                      <td>۵٪</td>
+                      <td>۱۵٪</td>
+                      <td class="trend-down">⬆ بدتر</td>
+                      <td>≤ ۵٪</td>
+                      <td><span class="status-dot red">بحرانی</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Trends Tab -->
+        <div class="tab-panel" id="panel-trends">
+          <section class="charts-grid">
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">روند شکایات و TAT</div>
+                  <div class="card-sub">TAT و شکایات همزمان صعودی</div>
+                </div>
+              </div>
+              <div class="chart-container"><canvas id="chartComplaintsTat2"></canvas></div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">شکاف دیجیتال و افت دقت</div>
+                  <div class="card-sub">هدف ۵۰٪ دیجیتال و دقت ۹۵٪</div>
+                </div>
+              </div>
+              <div class="chart-container"><canvas id="chartDigitalAccuracy2"></canvas></div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Breakdown Tab -->
+        <div class="tab-panel" id="panel-breakdown">
+          <section class="charts-grid">
+            <div class="card">
+              <div class="card-header"><div class="card-title">ترکیب اسناد بر اساس نوع خدمت</div></div>
+              <div class="chart-container"><canvas id="chartClaimsMix2"></canvas></div>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title">عملکرد لایه‌ای</div></div>
+              <div class="chart-container"><canvas id="chartLayerPerformance2"></canvas></div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Drivers Tab -->
+        <div class="tab-panel" id="panel-drivers">
+          <section class="drivers-grid">
+            <div class="driver-card">
+              <h4>محرک ۱ — رشد پرونده ارفاقی</h4>
+              <div class="driver-item"><label>مشاهده</label><p>نرخ پرونده ارفاقی از ۰.۵٪ به ۷٪ رسید</p></div>
+              <div class="driver-item"><label>شاهد</label><p>ورود ۲,۰۰۰+ بازنشسته به ذیل قرارداد</p></div>
+              <div class="driver-item"><label>علت</label><p>افزایش سن و اختلاف تعرفه نظام پزشکی با پرداختی</p></div>
+              <div class="driver-item"><label>اثر</label><p>افزایش فشار ریسکی و رشد هزینه‌ها</p></div>
+            </div>
+            <div class="driver-card">
+              <h4>محرک ۲ — رشد TAT</h4>
+              <div class="driver-item"><label>مشاهده</label><p>میانگین TAT از ۵–۷ روز به ۱۰–۱۴ روز رسید</p></div>
+              <div class="driver-item"><label>شاهد</label><p>گلوگاه در اخذ مجوز و تکمیل مدارک</p></div>
+              <div class="driver-item"><label>علت</label><p>کندی مراحل میانی پردازش و سهم بالای فرآیند دستی</p></div>
+              <div class="driver-item"><label>اثر</label><p>رشد نرخ شکایات از ۵٪ به ۱۵٪</p></div>
+            </div>
+            <div class="driver-card">
+              <h4>محرک ۳ — شکاف دیجیتال</h4>
+              <div class="driver-item"><label>مشاهده</label><p>نرخ پذیرش دیجیتال در ۲۳٪ ثابت ماند</p></div>
+              <div class="driver-item"><label>شاهد</label><p>هدف ۵۰٪، فاصله ۲۷ واحد درصدی</p></div>
+              <div class="driver-item"><label>علت</label><p>غلبه فرآیند دستی و پذیرش پایین ذی‌نفعان</p></div>
+              <div class="driver-item"><label>اثر</label><p>ناپایداری کاهش TAT و شکایات</p></div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Interpretation -->
+        <section class="section" id="variance">
+          <h3 class="section-title"><i data-lucide="git-compare"></i> تفسیر شاخص‌های عملکردی</h3>
+          <div class="variance-grid">
+            <div class="card">
+              <div class="card-header"><div class="card-title">پل انحراف شاخص‌های کلیدی</div></div>
+              <div class="chart-container"><canvas id="chartWaterfall"></canvas></div>
+            </div>
+            <div class="insight-card">
+              <h4>مهم‌ترین یافته‌های دوره</h4>
+              <p>۱۳ شاخص کلیدی پایش شد؛ ۲ شاخص در وضعیت قرمز، ۳ شاخص نارنجی و مابقی در محدوده هدف هستند.</p>
+              <p>مهم‌ترین یافته: افزایش سن بیمه‌شدگان (۳۰→۳۲ سال) و بالارفتن نرخ درخواست خدمات، فشار خسارت را افزایش داده است.</p>
+              <p class="sub">نرخ پذیرش دیجیتال ۲۳٪ در برابر هدف ۵۰٪، نشان می‌دهد فرآیندهای دستی هنوز غالب هستند.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Drivers Section -->
+        <section class="section" id="drivers-section">
+          <h3 class="section-title"><i data-lucide="target"></i> محرک‌های کلیدی عملکرد</h3>
+          <div class="drivers-grid">
+            <div class="driver-card">
+              <h4>محرک ۱ — افزایش سن و فشار خسارت</h4>
+              <div class="driver-item"><label>مشاهده</label><p>میانگین سنی از ۳۰ به ۳۲ سال رسید</p></div>
+              <div class="driver-item"><label>شاهد</label><p>نرخ پرونده ارفاقی ۰.۵٪ → ۷٪</p></div>
+              <div class="driver-item"><label>علت</label><p>ورود بازنشستگان و اختلاف تعرفه با پرداختی</p></div>
+              <div class="driver-item"><label>اثر</label><p>افزایش ضریب خسارت و فشار بر بیمه‌گر</p></div>
+            </div>
+            <div class="driver-card">
+              <h4>محرک ۲ — فرآیندهای دستی و کندی</h4>
+              <div class="driver-item"><label>مشاهده</label><p>۷۷٪ خدمات به‌صورت دستی انجام می‌شود</p></div>
+              <div class="driver-item"><label>شاهد</label><p>پذیرش دیجیتال راکد در ۲۳٪</p></div>
+              <div class="driver-item"><label>علت</label><p>نبود ابزار آنلاین کافی و آموزش ناکافی</p></div>
+              <div class="driver-item"><label>اثر</label><p>افزایش TAT و شکایات</p></div>
+            </div>
+            <div class="driver-card">
+              <h4>محرک ۳ — رشد حجم بدون رشد ظرفیت</h4>
+              <div class="driver-item"><label>مشاهده</label><p>حجم اسناد از مرز ۸۰ هزار گذشت</p></div>
+              <div class="driver-item"><label>شاهد</label><p>افت دقت ثبت از ۹۰٪ به ۸۰٪</p></div>
+              <div class="driver-item"><label>علت</label><p>عدم تناسب ظرفیت کنترل کیفیت با حجم</p></div>
+              <div class="driver-item"><label>اثر</label><p>افزایش عودت اسناد و نارضایتی</p></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Risk & Opportunity -->
+        <section class="section" id="risk">
+          <h3 class="section-title"><i data-lucide="alert-triangle"></i> ریسک و فرصت</h3>
+          <div class="risk-grid">
+            <div class="card">
+              <div class="card-header"><div class="card-title">ماتریس ریسک</div></div>
+              <div class="matrix-grid">
+                <div class="matrix-cell high-high">
+                  <h5>احتمال بالا / اثر بالا 🔴</h5>
+                  <ul>
+                    <li>ادامه رشد نرخ شکایات</li>
+                    <li>تثبیت TAT در ۱۴ روز</li>
+                  </ul>
+                </div>
+                <div class="matrix-cell mid-high">
+                  <h5>احتمال متوسط / اثر بالا 🟠</h5>
+                  <ul>
+                    <li>ادامه رشد پرونده‌های ارفاقی</li>
+                    <li>افت بیشتر دقت ثبت اسناد</li>
+                  </ul>
+                </div>
+                <div class="matrix-cell low-high">
+                  <h5>احتمال پایین / اثر بالا 🟡</h5>
+                  <ul>
+                    <li>تغییر قوانین تعرفه بیمه‌ای</li>
+                  </ul>
+                </div>
+                <div class="matrix-cell low-low">
+                  <h5>احتمال پایین / اثر پایین 🟢</h5>
+                  <ul>
+                    <li>نوسانات جزئی هزینه خدمات</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title">فرصت‌های بهبود</div></div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>فرصت</th>
+                      <th>پتانسیل</th>
+                      <th>زمان تحقق</th>
+                      <th>مالک</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>افزایش پذیرش دیجیتال</td>
+                      <td>کاهش TAT به ۷ روز</td>
+                      <td>۳ ماه</td>
+                      <td>مسئول</td>
+                    </tr>
+                    <tr>
+                      <td>آموزش پرسنل و نمایندگان</td>
+                      <td>افزایش رضایت و دقت ثبت</td>
+                      <td>۲ ماه</td>
+                      <td>کارشناس</td>
+                    </tr>
+                    <tr>
+                      <td>مذاکره مجدد با بیمه‌گر</td>
+                      <td>بهبود ضریب خسارت</td>
+                      <td>۱ ماه</td>
+                      <td>رئیس</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Next Period Focus -->
+        <section class="section" id="actions">
+          <h3 class="section-title"><i data-lucide="check-circle"></i> جدول تمرکز دوره بعد</h3>
+          <div class="card" style="margin-bottom:24px;">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>محور</th>
+                    <th>شاخص هدف</th>
+                    <th>اقدام کلیدی</th>
+                    <th>مالک</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>بستن شکاف دیجیتال</td>
+                    <td><span class="badge blue">پذیرش دیجیتال ≥ ۳۰٪</span></td>
+                    <td>آموزش پرسنل و نمایندگان + تسهیل ارسال آنلاین</td>
+                    <td>مسئول</td>
+                  </tr>
+                  <tr>
+                    <td>بازگرداندن دقت ثبت</td>
+                    <td><span class="badge blue">دقت اسناد ≥ ۹۵٪</span></td>
+                    <td>بازبینی فرآیند کنترل + آموزش مجدد ثبت‌کنندگان</td>
+                    <td>کارشناس</td>
+                  </tr>
+                  <tr>
+                    <td>کنترل پرونده ارفاقی</td>
+                    <td><span class="badge blue">ارفاقی ≤ ۴٪</span></td>
+                    <td>بررسی ریشه‌ای + مکاتبه با بیمه‌گر</td>
+                    <td>مسئول</td>
+                  </tr>
+                  <tr>
+                    <td>کاهش TAT</td>
+                    <td><span class="badge blue">≤ ۷ روز</span></td>
+                    <td>تسریع پردازش + افزایش سهم دیجیتال</td>
+                    <td>مسئول</td>
+                  </tr>
+                  <tr>
+                    <td>کاهش شکایات</td>
+                    <td><span class="badge blue">≤ ۸٪</span></td>
+                    <td>پیگیری فعال پرونده‌های معوق + اطلاع‌رسانی شفاف</td>
+                    <td>مسئول</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="actions-grid">
+            <div class="card">
+              <div class="card-header"><div class="card-title">جدول تصمیمات کلیدی</div></div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>تصمیم</th>
+                      <th>مسئول</th>
+                      <th>اهمیت</th>
+                      <th>پیامد تأخیر</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>۱</td>
+                      <td>تأیید بودجه آموزش دیجیتال</td>
+                      <td>رئیس</td>
+                      <td><span class="badge red">بالا</span></td>
+                      <td>تثبیت TAT بالا</td>
+                    </tr>
+                    <tr>
+                      <td>۲</td>
+                      <td>مذاکره با بیمه‌گر برای کاهش زمان مجوز</td>
+                      <td>مسئول</td>
+                      <td><span class="badge red">بالا</span></td>
+                      <td>رشد شکایات</td>
+                    </tr>
+                    <tr>
+                      <td>۳</td>
+                      <td>بازبینی فرآیند کنترل کیفیت ثبت اسناد</td>
+                      <td>کارشناس</td>
+                      <td><span class="badge orange">متوسط</span></td>
+                      <td>افت دقت ثبت</td>
+                    </tr>
+                    <tr>
+                      <td>۴</td>
+                      <td>بررسی ریشه‌ای پرونده‌های ارفاقی</td>
+                      <td>مسئول</td>
+                      <td><span class="badge orange">متوسط</span></td>
+                      <td>افزایش فشار ریسکی</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title">برنامه اقدام دوره بعد</div></div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>اقدام</th>
+                      <th>مالک</th>
+                      <th>KPI موفقیت</th>
+                      <th>وضعیت</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>آموزش پرسنل و نمایندگان</td>
+                      <td>مسئول</td>
+                      <td>پذیرش دیجیتال ≥ ۳۰٪</td>
+                      <td><span class="status-dot orange">در حال انجام</span></td>
+                    </tr>
+                    <tr>
+                      <td>بازبینی کنترل ثبت</td>
+                      <td>کارشناس</td>
+                      <td>دقت ≥ ۹۵٪</td>
+                      <td><span class="status-dot orange">در حال انجام</span></td>
+                    </tr>
+                    <tr>
+                      <td>مکاتبه با بیمه‌گر</td>
+                      <td>مسئول</td>
+                      <td>ارفاقی ≤ ۴٪</td>
+                      <td><span class="status-dot orange">در حال انجام</span></td>
+                    </tr>
+                    <tr>
+                      <td>تسریع پردازش پرونده‌ها</td>
+                      <td>مسئول</td>
+                      <td>TAT ≤ ۷ روز</td>
+                      <td><span class="status-dot orange">در حال انجام</span></td>
+                    </tr>
+                    <tr>
+                      <td>پیگیری پرونده‌های معوق</td>
+                      <td>مسئول</td>
+                      <td>شکایات ≤ ۸٪</td>
+                      <td><span class="status-dot green">انجام شد</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Breakdown (Services & Centers) -->
+        <section class="section" id="breakdown">
+          <h3 class="section-title"><i data-lucide="package"></i> عملکرد تفکیکی</h3>
+          <div class="card" style="margin-bottom:24px;">
+            <div class="card-header">
+              <div>
+                <div class="card-title">تفکیک بر اساس نوع خدمات درمانی</div>
+                <div class="card-sub">مبالغ به ریال</div>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ردیف</th>
+                    <th>پوشش</th>
+                    <th>تعداد اسناد</th>
+                    <th>مبلغ اظهار شده</th>
+                    <th>مبلغ پرداخت شده</th>
+                    <th>سهم بیمه تکمیلی</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>A</td>
+                    <td>ویزیت و دارو</td>
+                    <td>۱۸۳,۱۹۶</td>
+                    <td>۸۹۳,۵۸۰,۴۳۲,۴۵۴</td>
+                    <td>۸۶۴,۹۰۸,۵۸۰,۰۰۰</td>
+                    <td><span class="badge green">۴۸.۶۳٪</span></td>
+                  </tr>
+                  <tr>
+                    <td>B</td>
+                    <td>پاراکلینیکی</td>
+                    <td>۳۵,۸۶۹</td>
+                    <td>۳۹۴,۱۶۵,۹۷۰,۰۱۲</td>
+                    <td>۳۱۰,۰۳۵,۱۱۵,۹۹۷</td>
+                    <td><span class="badge green">۷۳٪</span></td>
+                  </tr>
+                  <tr>
+                    <td>C</td>
+                    <td>بیمارستانی</td>
+                    <td>۳,۶۷۴</td>
+                    <td>۷۶۳,۸۲۷,۶۹۲,۱۶۷</td>
+                    <td>۵۸۱,۷۲۸,۵۱۴,۱۲۴</td>
+                    <td><span class="badge orange">۶۹٪</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">تفکیک بر اساس مراکز طرف قرارداد</div>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>کانال</th>
+                    <th>تعداد مراکز</th>
+                    <th>وضعیت</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>مراکز مستقیم</td>
+                    <td>۴۰ مرکز</td>
+                    <td><span class="status-dot green">فعال</span></td>
+                  </tr>
+                  <tr>
+                    <td>مراکز آنلاین</td>
+                    <td>۵,۶۱۳ مرکز</td>
+                    <td><span class="status-dot green">فعال</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Circle Performance -->
+        <section class="section" id="circle">
+          <h3 class="section-title"><i data-lucide="users"></i> عملکرد دایره بیمه تکمیلی</h3>
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">خلاصه اقدامات انجام‌شده در دوره</div>
+                <div class="card-sub">مهم‌ترین اقدامات دایره بیمه در شش ماه اول ۱۴۰۵</div>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>شرح اقدام</th>
+                    <th>مالک</th>
+                    <th>وضعیت</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>۱</td><td>برگزاری جلسات و مذاکره با شرکت بیمه سامان برای تمدید قرارداد</td><td>رئیس</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۲</td><td>جمع‌آوری اسناد پزشکی پرسنل (عدم واریز خسارت و...) </td><td>مسئول</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۳</td><td>ارسال الحاقیه‌های شرکت‌ها و دریافت تاییدیه لیست بیمه‌شدگان</td><td>مسئول</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۴</td><td>رفع ابهامات و خطاهای به وجود آمده در شرکت بیمه‌گر</td><td>کارشناس</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۵</td><td>افزایش شرکت سازمان عمران کرمان به ذیل قرارداد صنایع خودروسازی</td><td>مسئول</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۶</td><td>افزایش بازنشسته کارخانه کرمان موتور به ذیل قرارداد</td><td>مسئول</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۷</td><td>افزایش بیمه‌شدگان از قلم افتاده شرکت‌های گروه</td><td>کارشناس</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۸</td><td>اصلاح بیمه‌نامه‌های مغایرت‌دار و تفکیک نفرات دفاتر تهران و کارخانه</td><td>کارشناس</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۹</td><td>دریافت صورتحساب بیمه‌نامه‌های عمر و حوادث شرکت‌های گروه</td><td>مسئول</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۱۰</td><td>اصلاح صورتحساب‌ها از طرف بیمه‌گر</td><td>مسئول</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۱۱</td><td>ارسال مجدد صورتحساب‌ها و دریافت تاییدیه از مدیران منابع انسانی و نمایندگان</td><td>مسئول</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۱۲</td><td>پیگیری و وصول پرداخت صورتحساب‌های عمر و حوادث</td><td>مسئول</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۱۳</td><td>ارسال فیش‌های واریزی به بیمه‌گر و ثبت در سیستم</td><td>کارشناس</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۱۴</td><td>دریافت صورتحساب بیمه تکمیلی درمان کل شرکت‌های گروه</td><td>مسئول</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۱۵</td><td>پیگیری و پرداخت ماهانه صورتحساب‌ها و ثبت در سیستم مالی بیمه‌گر</td><td>مسئول</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۱۶</td><td>معرفی و مشاوره اولیه جهت دریافت بیمه تکمیلی درمان</td><td>کارشناس</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۱۷</td><td>شناسایی مبالغ مورد نیاز و خسارات قابل پرداخت بیمه‌گر (کمک هزینه درمان)</td><td>مسئول</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۱۸</td><td>پیگیری ثبت درخواست و مکاتبات با دفتر معاونت و قائم مقام مدیریت</td><td>رئیس</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۱۹</td><td>ثبت درخواست در سیستم SAP</td><td>کارشناس</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۲۰</td><td>پیگیری پرداخت وام از واحد مالی تا واریز وجه</td><td>کارشناس</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۲۱</td><td>شناسایی اسناد پزشکی دارای کسری مدرک و توضیح به بیمه‌شده</td><td>کارشناس</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۲۲</td><td>شناسایی اسناد پزشکی مورد نیاز دریافت مجوز از بیمه‌گر</td><td>کارشناس</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۲۳</td><td>مشاوره و راهنمایی به نمایندگان شرکت‌های گروه در خصوص اسناد عودتی</td><td>کارشناس</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۲۴</td><td>بررسی کلیه اسناد عودتی شرکت‌های گروه (علی‌الخصوص کرمان موتور)</td><td>کارشناس</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۲۵</td><td>پیگیری عدم واریز خسارت بیمه‌شدگان شرکت‌های گروه</td><td>مسئول</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۲۶</td><td>حل و فصل مشکلات تغییر شماره شبا بیمه‌شدگان</td><td>کارشناس</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۲۷</td><td>پیگیری واریزی‌های نامشخص و واریزی‌های برگشتی</td><td>کارشناس</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۲۸</td><td>برگزاری جلسه آموزشی و پرسش و پاسخ برای رؤسا و مدیران کارخانه</td><td>رئیس</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۲۹</td><td>پیگیری ثبت اسناد پزشکی</td><td>کارشناس</td><td><span class="badge blue">جاری</span></td></tr>
+                  <tr><td>۳۰</td><td>نظارت بر ثبت اسناد شرکت‌های گروه</td><td>کارشناس</td><td><span class="badge blue">جاری</span></td></tr>
+                  <tr><td>۳۱</td><td>عودت اسناد غیرقابل پرداخت، رادیوگرافی‌ها و اسناد قابل برگشت به نمایندگان</td><td>کارشناس</td><td><span class="badge blue">جاری</span></td></tr>
+                  <tr><td>۳۲</td><td>مکاتبه جهت دریافت مجوزهای مورد نیاز اسناد بند تکمله بیمه‌شدگان شرکت‌های گروه</td><td>مسئول</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۳۳</td><td>مکاتبات دریافت مجوز افزایش سقف تعهدات برای بیمه‌شدگان با بیماری خاص</td><td>مسئول</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۳۴</td><td>جمع‌آوری اطلاعات از مراکز طرف قرارداد شرکت بیمه سامان</td><td>کارشناس</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۳۵</td><td>ارسال اطلاعیه و دعوت از همکاران برای اعلام مراکز درمانی جهت عقد قرارداد</td><td>کارشناس</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۳۶</td><td>مکاتبات افزایش و کاهش بیمه‌شدگان شرکت کرمان موتور و گروه</td><td>مسئول</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۳۷</td><td>ارسال اطلاعیه‌های استفاده از بیمه تکمیلی درمان</td><td>کارشناس</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۳۸</td><td>مکاتبات معرفی‌نامه‌های دستی و آنلاین در ایام نوروز</td><td>کارشناس</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۳۹</td><td>مکاتبات پرداختی‌های ارفاقی (خارج از تعهدات بیمه‌گر)</td><td>مسئول</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۴۰</td><td>تکمیل مدارک متوفیان شرکت‌های صنایع خودروسازی کرمان</td><td>کارشناس</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۴۱</td><td>مکاتبه با شرکت بیمه‌گر</td><td>مسئول</td><td><span class="badge blue">جاری</span></td></tr>
+                  <tr><td>۴۲</td><td>دریافت تصویر فیش واریزی بیمه‌گر به حساب شرکت کرمان موتور</td><td>کارشناس</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۴۳</td><td>ثبت در SAP برای تعیین و تکلیف مبالغ واریزی</td><td>کارشناس</td><td><span class="badge blue">جاری</span></td></tr>
+                  <tr><td>۴۴</td><td>مکاتبات و هماهنگی صدور معرفی‌نامه دستی در بازه تمدید قرارداد</td><td>کارشناس</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۴۵</td><td>پیگیری ثبت اسامی از آخرین تغییرات به عنوان لیست ابتدای قرارداد هر بیمه‌نامه</td><td>مسئول</td><td><span class="badge green">انجام شد</span></td></tr>
+                  <tr><td>۴۶</td><td>هماهنگی با شرکت‌های گروه برای ارائه لیست ابتدای قرارداد</td><td>مسئول</td><td><span class="badge green">انجام شد</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Init Lucide icons
+    lucide.createIcons();
+
+    // Mobile sidebar
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    const mobileToggle = document.getElementById('mobileToggle');
+
+    mobileToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('open');
+    });
+    overlay.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('open');
+    });
+
+    // Smooth scroll & active nav
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = item.getAttribute('href');
+        const el = document.querySelector(target);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        item.classList.add('active');
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+      });
+    });
+
+    // Tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const tab = btn.dataset.tab;
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById('panel-' + tab).classList.add('active');
+        setTimeout(() => {
+          if (tab === 'trends') initTrendCharts();
+          if (tab === 'breakdown') initBreakdownCharts();
+        }, 50);
+      });
+    });
+
+    // Period filter (demo)
+    const periodData = {
+      q1: { retention: '۱۰۸٪', complaints: '۸٪', tat: '۷–۹ روز', digital: '۲۰٪' },
+      q2: { retention: '۱۱۵٪', complaints: '۱۵٪', tat: '۱۰–۱۴ روز', digital: '۲۳٪' },
+      h1: { retention: '۱۱۵٪', complaints: '۱۵٪', tat: '۱۰–۱۴ روز', digital: '۲۳٪' },
+      year: { retention: '۱۱۰٪', complaints: '۱۰٪', tat: '۸–۱۰ روز', digital: '۲۲٪' }
+    };
+    const periodSelect = document.getElementById('periodSelect');
+    if (periodSelect) {
+      periodSelect.addEventListener('change', (e) => {
+        const d = periodData[e.target.value];
+        const r = document.querySelector('.kpi-card.success .kpi-value');
+        const c = document.querySelector('.kpi-card.danger .kpi-value');
+        const t = document.querySelectorAll('.kpi-card.danger')[1].querySelector('.kpi-value');
+        const di = document.querySelector('.kpi-card.warning .kpi-value');
+        if (r) r.textContent = d.retention;
+        if (c) c.textContent = d.complaints;
+        if (t) t.textContent = d.tat;
+        if (di) di.textContent = d.digital;
+      });
+    }
+
+    // Export PDF
+    document.getElementById('exportPdf').addEventListener('click', () => window.print());
+
+    // Chart defaults
+    Chart.defaults.font.family = 'Vazirmatn';
+    Chart.defaults.font.size = 12;
+    Chart.defaults.color = '#6B7280';
+    Chart.defaults.plugins.legend.rtl = true;
+    Chart.defaults.plugins.legend.labels.usePointStyle = true;
+    Chart.defaults.plugins.tooltip.rtl = true;
+    Chart.defaults.plugins.tooltip.textDirection = 'rtl';
+
+    const months = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور'];
+
+    function createComplaintsTatChart(canvasId) {
+      const ctx = document.getElementById(canvasId);
+      if (!ctx || ctx.chart) return;
+      ctx.chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: months,
+          datasets: [
+            {
+              label: 'نرخ شکایات (٪)',
+              data: [5, 7, 10, 12, 15, 15],
+              borderColor: '#EF4444',
+              backgroundColor: 'rgba(239,68,68,0.1)',
+              tension: 0.3, yAxisID: 'y', fill: false,
+              pointRadius: 4, pointHoverRadius: 6
+            },
+            {
+              label: 'TAT (روز)',
+              data: [5, 7, 10, 12, 14, 14],
+              borderColor: '#F59E0B',
+              backgroundColor: 'rgba(245,158,11,0.1)',
+              tension: 0.3, yAxisID: 'y1', fill: false,
+              pointRadius: 4, pointHoverRadius: 6
+            }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: { legend: { position: 'bottom' } },
+          scales: {
+            x: { grid: { color: '#F3F4F6' } },
+            y: {
+              type: 'linear', position: 'right',
+              title: { display: true, text: 'شکایات ٪' },
+              grid: { color: '#F3F4F6' }, min: 0, max: 20
+            },
+            y1: {
+              type: 'linear', position: 'left',
+              title: { display: true, text: 'TAT (روز)' },
+              grid: { drawOnChartArea: false }, min: 0, max: 20
+            }
+          }
+        }
+      });
+    }
+
+    function createDigitalAccuracyChart(canvasId) {
+      const ctx = document.getElementById(canvasId);
+      if (!ctx || ctx.chart) return;
+      ctx.chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: months,
+          datasets: [
+            {
+              label: 'دقت ثبت اسناد',
+              data: [90, 88, 85, 83, 80, 80],
+              borderColor: '#3B82F6',
+              backgroundColor: 'rgba(59,130,246,0.1)',
+              tension: 0.3, fill: false, pointRadius: 4
+            },
+            {
+              label: 'پذیرش دیجیتال',
+              data: [23, 23, 23, 23, 23, 23],
+              borderColor: '#10B981',
+              backgroundColor: 'rgba(16,185,129,0.1)',
+              tension: 0.3, fill: false, pointRadius: 4
+            },
+            {
+              label: 'هدف دیجیتال (۵۰٪)',
+              data: [50, 50, 50, 50, 50, 50],
+              borderColor: '#9CA3AF',
+              borderDash: [6, 4], borderWidth: 1.5,
+              pointRadius: 0, fill: false
+            },
+            {
+              label: 'هدف دقت (۹۵٪)',
+              data: [95, 95, 95, 95, 95, 95],
+              borderColor: '#F59E0B',
+              borderDash: [6, 4], borderWidth: 1.5,
+              pointRadius: 0, fill: false
+            }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom' } },
+          scales: {
+            x: { grid: { color: '#F3F4F6' } },
+            y: {
+              min: 0, max: 100,
+              grid: { color: '#F3F4F6' },
+              ticks: { callback: v => v + '٪' }
+            }
+          }
+        }
+      });
+    }
+
+    function createClaimsMixChart(canvasId) {
+      const ctx = document.getElementById(canvasId);
+      if (!ctx || ctx.chart) return;
+      ctx.chart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['ویزیت و دارو', 'پاراکلینیکی', 'بیمارستانی'],
+          datasets: [{
+            data: [183196, 35869, 3674],
+            backgroundColor: ['#2DBEAB', '#3B82F6', '#F59E0B'],
+            borderWidth: 0, hoverOffset: 8
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false, cutout: '60%',
+          plugins: {
+            legend: { position: 'bottom', labels: { padding: 16 } },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => {
+                  const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                  const pct = ((ctx.raw / total) * 100).toFixed(1);
+                  return ctx.label + ': ' + ctx.raw.toLocaleString('fa-IR') + ' سند (' + pct + '٪)';
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function createLayerChart(canvasId) {
+      const ctx = document.getElementById(canvasId);
+      if (!ctx || ctx.chart) return;
+      ctx.chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['عملیاتی', 'کیفیت', 'اثر'],
+          datasets: [{
+            label: 'عملکرد',
+            data: [95, 82, 65],
+            backgroundColor: ['#2DBEAB', '#10B981', '#F59E0B'],
+            borderRadius: 8, barThickness: 28
+          }]
+        },
+        options: {
+          indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: (ctx) => ctx.raw + '٪' } }
+          },
+          scales: {
+            x: {
+              min: 0, max: 100,
+              grid: { color: '#F3F4F6' },
+              ticks: { callback: v => v + '٪' }
+            },
+            y: { grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    function createWaterfallChart() {
+      const ctx = document.getElementById('chartWaterfall');
+      if (!ctx || ctx.chart) return;
+      const labels = ['دقت ثبت', 'پذیرش دیجیتال', 'نرخ ارفاقی', 'نگهداشت', 'شکایات', 'TAT'];
+      const values = [90, 23, 7, 115, 15, 14];
+      const target = [95, 50, 3, 100, 5, 7];
+      ctx.chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: 'دوره جاری',
+              data: values,
+              backgroundColor: values.map((v, i) => v >= target[i] ? '#10B981' : '#EF4444'),
+              borderRadius: 6
+            },
+            {
+              label: 'هدف',
+              data: target,
+              backgroundColor: 'rgba(156,163,175,0.25)',
+              borderRadius: 6
+            }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom' } },
+          scales: {
+            x: { grid: { display: false } },
+            y: { min: 0, max: 130, grid: { color: '#F3F4F6' } }
+          }
+        }
+      });
+    }
+
+    // Init main charts
+    createComplaintsTatChart('chartComplaintsTat');
+    createDigitalAccuracyChart('chartDigitalAccuracy');
+    createClaimsMixChart('chartClaimsMix');
+    createLayerChart('chartLayerPerformance');
+    createWaterfallChart();
+
+    function initTrendCharts() {
+      createComplaintsTatChart('chartComplaintsTat2');
+      createDigitalAccuracyChart('chartDigitalAccuracy2');
+    }
+    function initBreakdownCharts() {
+      createClaimsMixChart('chartClaimsMix2');
+      createLayerChart('chartLayerPerformance2');
+    }
+
+    // Intersection observer for nav highlight
+    const sections = ['dashboard', 'kpi', 'trends', 'variance', 'drivers-section', 'breakdown', 'risk', 'actions', 'circle'];
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          document.querySelectorAll('.nav-item').forEach(n => {
+            const href = n.getAttribute('href');
+            if (href === '#' + id) n.classList.add('active');
+            else n.classList.remove('active');
+          });
+        }
+      });
+    }, { threshold: 0.2, rootMargin: '-80px 0px -40% 0px' });
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+  </script>
+</body>
+</html>
